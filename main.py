@@ -10,12 +10,6 @@ GOAL_STATE = [
     [8, 0, 4],
     [7, 6, 5]]
 
-# This state should take 5 moves to complete
-INIT_STATE = [
-    [2, 8, 3],
-    [1, 6, 4],
-    [7, 0, 5]]
-
 
 class State:
     def __init__(self, state, g = 0, parent = None):
@@ -108,44 +102,27 @@ class AStar:
         open.append(self.init_state)
         close = []
         g = 0
-        min_f = sys.maxint
 
         while open:
-            print "SEARCHING F"
+            temp = []
             for state in open:
-                temp = State(state, g, state)
-                temp.print_state()
-                if temp.f < min_f:
-                    print "LESS"
-                    min_f = temp.f
-                    current = temp
+                temp.append(State(state, g, state))
+            current = min(temp, key = attrgetter('f'))
+            del temp[:]
 
             if current.state == self.goal_state:
-                print "FOUND"
+                print "FOUND g =", g
                 break
-            if g == 1:
-                break
+
             open.remove(current.state)
             close.append(current.state)
-
-            print "CURRENT"
-            current.print_state()
             neighbours = State(current.state, g, current.state)
 
             for state in neighbours.valid_state():
-                # state.print_state()
-
                 if state.state in close:
-                    print "in closed"
                     continue
 
-                # t_g = g + 1
-                # if t_g >= g:
-                #     print t_g
-                #     continue
-
                 if state.state not in open:
-                    print "appending open"
                     open.append(state.state)
 
             g += 1
@@ -156,11 +133,67 @@ tstate = [
     [1, 8, 4],
     [7, 6, 5]]
 
+# 13 Initial State to test from the provided PDF document
+# Each is harder/takes more moves
+INIT_STATE = [
+    [
+        [2, 8, 3],
+        [1, 6, 4],
+        [7, 0, 5]],
+    [
+        [2, 1, 6],
+        [4, 0, 8],
+        [7, 5, 3]],
+    [
+        [5, 7, 2],
+        [0, 8, 6],
+        [4, 1, 3]],
+    [
+        [0, 6, 5],
+        [4, 1, 7],
+        [3, 2, 8]],
+    [
+        [0, 6, 5],
+        [4, 1, 8],
+        [3, 7, 2]],
+    [
+        [6, 5, 7],
+        [4, 1, 0],
+        [3, 2, 8]],
+    [
+        [6, 5, 7],
+        [4, 0, 1],
+        [3, 2, 8]],
+    [
+        [6, 5, 7],
+        [4, 2, 1],
+        [3, 0, 8]],
+    [
+        [5, 6, 7],
+        [0, 4, 8],
+        [3, 2, 1]],
+    [
+        [6, 5, 7],
+        [4, 2, 1],
+        [3, 8, 0]],
+    [
+        [0, 5, 7],
+        [6, 4, 1],
+        [3, 2, 8]],
+    [
+        [5, 6, 7],
+        [4, 0, 8],
+        [3, 2, 1]],
+    [
+        [2, 0, 4],
+        [1, 3, 5],
+        [7, 8, 6]],
+]
+
 
 def main():
-    AStar(INIT_STATE, GOAL_STATE).search()
-    # State(tstate).print_state()
-
+    for state in INIT_STATE:
+        AStar(state, GOAL_STATE).search()
 
 class PriorityQueue:
     def __init__(self):
