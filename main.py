@@ -48,7 +48,6 @@ class State:
             temp_state[y - 1][x] = 0
             new_state = State(temp_state, self.g + 1, self.state)
             valid_states.append(new_state)
-            del temp_state[:][:]
 
         # check below
         if y < 2:
@@ -57,7 +56,6 @@ class State:
             temp_state[y + 1][x] = 0
             new_state = State(temp_state, self.g + 1, self.state)
             valid_states.append(new_state)
-            del temp_state[:][:]
 
         # check left
         if x > 0:
@@ -66,7 +64,6 @@ class State:
             temp_state[y][x - 1] = 0
             new_state = State(temp_state, self.g + 1, self.state)
             valid_states.append(new_state)
-            del temp_state[:][:]
 
         # check right
         if x < 2:
@@ -75,7 +72,6 @@ class State:
             temp_state[y][x + 1] = 0
             new_state = State(temp_state, self.g + 1, self.state)
             valid_states.append(new_state)
-            del temp_state[:][:]
 
         return valid_states
 
@@ -108,7 +104,6 @@ class AStar:
             for state in open:
                 temp.append(State(state, g, state))
             current = min(temp, key = attrgetter('f'))
-            del temp[:]
 
             if current.state == self.goal_state:
                 print "FOUND g =", g
