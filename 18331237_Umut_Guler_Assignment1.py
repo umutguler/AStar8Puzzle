@@ -222,7 +222,7 @@ def main():
 
         i = input("Type 0 = Quit\nEnter which initial state to test, 1 to 13: ")
 
-        if 0 < i < 13:
+        if 0 < i <= 13:
             AStar(INIT_STATE[i - 1], GOAL_STATE).search()
             raw_input("Press enter to continue . . .")
             count = 0
